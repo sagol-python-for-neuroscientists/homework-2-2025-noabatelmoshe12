@@ -23,6 +23,7 @@ def text_to_morse(input_file: str = "lorem.txt", output_file: str = "lorem_morse
 
     with open(output_file, 'w') as outfile:
         outfile.write(morse_content)
+    print(f"Morse Code Output:\n{morse_content}")
 if __name__ == "__main__":
     text_to_morse()
 
