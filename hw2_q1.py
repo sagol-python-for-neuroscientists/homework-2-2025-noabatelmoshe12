@@ -1,3 +1,5 @@
+from pathlib import Path
+import re
 MORSE_CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
               'D': '-..',    'E': '.',      'F': '..-.',
               'G': '--.',    'H': '....',   'I': '..',
@@ -22,18 +24,15 @@ def english_to_morse(
     input_file: str = "lorem.txt",
     output_file: str = "lorem_morse.txt"
 ):
-    """Convert an input text file to an output Morse code file.
+    text = Path(input_file).read_text().upper()
 
-    Notes
-    -----
-    This function assumes the existence of a MORSE_CODE dictionary, containing a
-    mapping between English letters and their corresponding Morse code.
+    # Split the text into "words" using space or newline as delimiter
+    word_chunks = re.split(r'[ \n]', text)
 
-    Parameters
-    ----------
-    input_file : str
-        Path to file containing the text file to convert.
-    output_file : str
-        Name of output file containing the translated Morse code. Please don't change
-        it since it's also hard-coded in the tests file.
-    """
+    # Convert each "word" into morse with no spaces between characters
+    morse_words = [''.join(filter(None, map(MORSE_CODE.get, word))) for word in word_chunks]
+
+    # Save to output file
+    Path(output_file).write_text('\n'.join(morse_words))
+
+english_to_morse()
